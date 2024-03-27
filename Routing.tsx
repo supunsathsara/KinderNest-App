@@ -21,9 +21,13 @@ import MonthlyProgress from './Components/Screens/Monthlyprogress';
 import ProgressParent from './Components/Screens/progressparent';
 import ProgressTeacher from './Components/Screens/Progressteacher';
 import Aboutus from './Components/Screens/Aboutus';
-import { Drawer } from 'react-native-paper';
+import { Button, Drawer } from 'react-native-paper';
 import Contactus from './Components/Screens/Contactus';
 import Icon from 'react-native-vector-icons/Entypo';
+import RegisterScreen from './Components/Screens/RegisterScreen';
+import { supabase } from './lib/supabase';
+import { Alert, View } from 'react-native';
+import LogoutButton from './Components/Screens/LogoutButton';
 
 const StackNav = () => {
   const stack = createNativeStackNavigator();
@@ -40,6 +44,10 @@ const StackNav = () => {
       <stack.Screen
         name='Login'
         component={Login}
+        options={{ headerShown: false }} />
+        <stack.Screen
+        name='Register'
+        component={RegisterScreen}
         options={{ headerShown: false }} />
       <stack.Screen
         name='Pregister'
@@ -128,12 +136,17 @@ const StackNav = () => {
       <stack.Screen
         name='PTeacher'
         component={ProgressTeacher} />
+        <stack.Screen
+        name='Account'
+        component={LogoutButton} />
+        
     </stack.Navigator>
   );
 }
 
 const DrawerNav = () => {
   const Drawer = createDrawerNavigator();
+  
   return (
     <Drawer.Navigator screenOptions={{
       headerShown: false,
@@ -141,9 +154,12 @@ const DrawerNav = () => {
       <Drawer.Screen name="Home" component={StackNav} />
       <Drawer.Screen name="Aboutus" component={Aboutus} options={{headerShown: true, headerTitleAlign:'center'}} />
       <Drawer.Screen name="Contactus" component={Contactus} options={{headerShown: true, headerTitleAlign:'center'}} />
+      <Drawer.Screen name="Account" component={LogoutButton} options={{ headerShown: true, headerTitleAlign: 'center' }} />
     </Drawer.Navigator>
   )
 }
+
+
 
 const Routing = () => {
   const Drawer = createDrawerNavigator();

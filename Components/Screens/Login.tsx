@@ -35,7 +35,7 @@ const Login = ({ navigation }) => {
   async function signInWithEmail() {
 
     //Alert.alert(email)
-    const { error } = await supabase.auth.signInWithPassword({
+    const { data, error } = await supabase.auth.signInWithPassword({
       email: email,
       password: password,
     })
@@ -44,7 +44,10 @@ const Login = ({ navigation }) => {
 
     if (error) Alert.alert(error.message)
 
-    if (!error) navigation.navigate('PHome');
+    if( data && data.user?.user_metadata.role == 'parent' ) navigation.navigate('PHome');
+    if( data && data.user?.user_metadata.role == 'teacher' ) navigation.navigate('THome');
+
+    //if (!error) navigation.navigate('PHome');
 
   }
   return (
@@ -62,7 +65,7 @@ const Login = ({ navigation }) => {
       </View>
       <View style={{ marginTop: 20, alignItems: 'center' }}>
         <TouchableOpacity onPress={() => navigation.navigate('FPassword')}><Text style={{ fontSize: 20, padding: 5, textAlign: 'center', fontWeight: 'bold' }}>Forgot Password</Text></TouchableOpacity>
-        <TouchableOpacity onPress={() => navigation.navigate('Pregister')} style={styles.button}><Text style={{ fontSize: 20, padding: 10, textAlign: 'center', fontWeight: 'bold', }}>Signup</Text></TouchableOpacity>
+        <TouchableOpacity onPress={() => navigation.navigate('Register')} style={styles.button}><Text style={{ fontSize: 20, padding: 10, textAlign: 'center', fontWeight: 'bold', }}>Signup</Text></TouchableOpacity>
         <TouchableOpacity><Text style={{ fontSize: 15, padding: 5, textAlign: 'center', fontWeight: 'bold',color: 'black', }}>Don't have an account</Text></TouchableOpacity>
       </View>
     </View>

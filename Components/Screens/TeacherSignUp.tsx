@@ -1,30 +1,94 @@
-import { StyleSheet, Text, View, TextInput, TouchableOpacity, ImageBackground } from 'react-native'
-import React from 'react'
+import { StyleSheet, Text, View, TextInput, TouchableOpacity, ImageBackground, Alert } from 'react-native'
+import React, { useState } from 'react'
+import { supabase } from '../../lib/supabase';
 
-const TeacherSignUp = () => {
+const TeacherSignUp = ({ navigation }) => {
+    const [teacherName, setTeacherName] = useState('');
+    const [kindergartenLevel, setKindergartenLevel] = useState('');
+    const [gender, setGender] = useState('');
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+    const [confirmPassword, setConfirmPassword] = useState('');
+  
+    const handleSignUp = async () => {
+      
+      if (password !== confirmPassword) {
+        Alert.alert("Passwords do not match")
+        return;
+    }
+
+    const { data, error } = await supabase.auth.signUp(
+        {
+            email: email,
+            password:  password,
+            options: {
+                data: {
+                    role: 'teacher',
+                    teacher_name: teacherName,
+                    kindergarten_level: kindergartenLevel,
+                    gender: gender
+                }
+            }
+        }
+    )
+
+    if (error) {
+        Alert.alert(error.message)
+    }
+    if (!error) {
+        navigation.navigate('PHome')
+    }
+    };
+  
     return (
-    <View style={styles.container}>   
-    <ImageBackground source={require('../images/SUPTE.png')} resizeMode="cover" style={styles.image}>
-      <Text style={styles.textheading}>Sign Up</Text>
-      <Text style={styles.text}>Teachers Name</Text>
-      <TextInput style={styles.input}></TextInput>
-      <Text style={styles.text}>Kindergarten Level </Text>
-      <TextInput style={styles.input}></TextInput>
-      <Text style={styles.text}>Gender</Text>
-      <TextInput style={styles.input}></TextInput>
-      <Text style={styles.text}>Date of birth</Text>
-      <TextInput style={styles.input}></TextInput>
-      <Text style={styles.text}>Email or Mobile</Text>
-      <TextInput style={styles.input}></TextInput>
-      <Text style={styles.text}>Password</Text>
-      <TextInput style={styles.input}></TextInput>
-      <Text style={styles.text}>Confirm Password</Text> 
-      <TextInput style={styles.input}></TextInput>
-      <TouchableOpacity style={styles.button}><Text style={{fontSize:20, padding:10, textAlign:'center', fontWeight:'bold'}}>Signup</Text></TouchableOpacity>
-      </ImageBackground>
-    </View >
-  )
-}
+      <View style={styles.container}>   
+        <ImageBackground source={require('../images/SUPTE.png')} resizeMode="cover" style={styles.image}>
+          <Text style={styles.textheading}>Sign Up</Text>
+          <Text style={styles.text}>Teachers Name</Text>
+          <TextInput
+            style={styles.input}
+            value={teacherName}
+            onChangeText={setTeacherName}
+          />
+          <Text style={styles.text}>Kindergarten Level</Text>
+          <TextInput
+            style={styles.input}
+            value={kindergartenLevel}
+            onChangeText={setKindergartenLevel}
+          />
+          <Text style={styles.text}>Gender</Text>
+          <TextInput
+            style={styles.input}
+            value={gender}
+            onChangeText={setGender}
+          />
+          <Text style={styles.text}>Email</Text>
+          <TextInput
+            style={styles.input}
+            value={email}
+            onChangeText={setEmail}
+          />
+          <Text style={styles.text}>Password</Text>
+          <TextInput
+            style={styles.input}
+            value={password}
+            onChangeText={setPassword}
+            secureTextEntry
+          />
+          <Text style={styles.text}>Confirm Password</Text> 
+          <TextInput
+            style={styles.input}
+            value={confirmPassword}
+            onChangeText={setConfirmPassword}
+            secureTextEntry
+          />
+          <TouchableOpacity style={styles.button} onPress={handleSignUp}>
+            <Text style={{fontSize:20, padding:10, textAlign:'center', fontWeight:'bold'}}>Signup</Text>
+          </TouchableOpacity>
+        </ImageBackground>
+      </View>
+    );
+  };
 
 export default TeacherSignUp
 

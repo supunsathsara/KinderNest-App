@@ -1,13 +1,30 @@
 import { StyleSheet, Text, View, ImageBackground, Image, TouchableOpacity } from 'react-native'
-import React from 'react'
+import React, { useEffect, useState } from 'react'
+import { supabase } from '../../lib/supabase'
+import { Session } from '@supabase/supabase-js'
 
-const Home = () => {
+const Home = ({navigation}) => {
+
+    const [session, setSession] = useState<Session | null>(null)
+
+    useEffect(() => {
+        supabase.auth.getSession().then(({ data: { session } }) => {
+          setSession(session)
+        })
+    
+        supabase.auth.onAuthStateChange((_event, session) => {
+          setSession(session)
+        })
+    
+     
+      }, [])
+
     return (
         <View style={styles.container}>
             <ImageBackground source={require('../images/Home.png')} resizeMode="cover" style={styles.image}>
                 <View style={styles.wrapper}>
                     <Text style={styles.text}>Howdy,</Text>
-                    <Text style={styles.text1}>John Doe</Text>
+                    <Text style={styles.text1}>{session?.user.user_metadata.teacher_name || "Teacher"}</Text>
                     <Text style={styles.text2}>Active</Text>
                     <Image style={styles.profile} source={require("../images/MaleFemale.png")}></Image>
                 </View>
@@ -16,7 +33,7 @@ const Home = () => {
                 </View>
                 <View style={{ flexDirection: 'row' }}>
                     <View style={styles.view}>
-                        <TouchableOpacity style={styles.onlinebtn}>
+                        <TouchableOpacity style={styles.onlinebtn} onPress={() => navigation.navigate('OCTeacher')}>
                             <Image source={require("../images/Classroom.png")}></Image>
                         </TouchableOpacity>
                         <Text style={styles.text4}>Online Classes</Text>
@@ -33,6 +50,14 @@ const Home = () => {
                         </TouchableOpacity>
                         <Text style={styles.text4}>Chat</Text>
                     </View>
+
+                    {/**Logout */}
+                    <View style={styles.view}>
+                        <TouchableOpacity onPress={() => navigation.navigate('Account')} style={styles.onlinebtn}>
+                            <Image source={require("../images/Chat.png")}></Image>
+                        </TouchableOpacity>
+                        <Text style={styles.text4}>Account</Text>
+                        </View>
                 </View>
 
                 <View style={{ flexDirection: 'row' }}>
@@ -134,7 +159,7 @@ const styles = StyleSheet.create({
         backgroundColor: 'white',
         height: 128,
         width: 142,
-        borderRadius: 5,
+
         marginHorizontal: 15,
         marginTop: 60,
         alignItems: 'center',
@@ -145,7 +170,7 @@ const styles = StyleSheet.create({
     Calendartn: {
         height: 132,
         width: 112,
-        borderRadius: 5,
+
         marginHorizontal: 15,
         marginTop: 60,
         alignItems: 'center',

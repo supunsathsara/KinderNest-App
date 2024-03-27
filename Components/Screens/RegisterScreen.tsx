@@ -6,13 +6,13 @@ const RegisterScreen = ({ navigation }) => {
     <View style={styles.container}>
       <TouchableOpacity
         style={styles.button}
-        onPress={() => navigation.navigate('TeacherSignup')}
+        onPress={() => navigation.navigate('Tregister')}
       >
         <Text style={styles.buttonText}>Register as Teacher</Text>
       </TouchableOpacity>
       <TouchableOpacity
         style={styles.button}
-        onPress={() => navigation.navigate('ParentSignup')}
+        onPress={() => navigation.navigate('Pregister')}
       >
         <Text style={styles.buttonText}>Register as Parent</Text>
       </TouchableOpacity>
