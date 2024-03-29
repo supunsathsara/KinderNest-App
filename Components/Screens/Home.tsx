@@ -62,7 +62,7 @@ const Home = ({navigation}) => {
 
                 <View style={{ flexDirection: 'row' }}>
                     <View style={styles.view}>
-                        <TouchableOpacity style={styles.Progresstn}>
+                        <TouchableOpacity style={styles.Progresstn} onPress={() => navigation.navigate('PProgress')}>
                             <Image source={require("../images/Progress.png")}></Image>
                         </TouchableOpacity>
                         <Text style={styles.text4}>Progress</Text>

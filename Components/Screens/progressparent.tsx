@@ -7,9 +7,54 @@ import {
     TextInput,
     TouchableOpacity,
   } from 'react-native';
-  import React from 'react';
+  import React, { useEffect, useState } from 'react';
+import axios from 'axios';
+import { supabase } from '../../lib/supabase';
+import { Session } from '@supabase/supabase-js';
   
+// Define an interface for the progress data
+interface ProgressData {
+  _id: string;
+  student: string;
+  subjects: { name: string; grade: string; }[];
+  remark: string;
+  month: string;
+  created: string;
+  __v: number;
+}
+
   const ProgressParent = () => {
+
+    const [session, setSession] = useState<Session | null>(null)
+
+    useEffect(() => {
+        supabase.auth.getSession().then(({ data: { session } }) => {
+          setSession(session)
+        })
+    
+        supabase.auth.onAuthStateChange((_event, session) => {
+          setSession(session)
+        })
+    
+     
+      }, [])
+
+    const [progress, setProgress] = useState<ProgressData | null>(null);
+
+    useEffect(() => {
+      const fetchProgress = async () => {
+        try {
+          const response = await axios.get(`${process.env.API_URL}/progress/${session?.user.email}`);
+          console.log('Progress data:', response.data);
+          setProgress(response.data);
+        } catch (error) {
+          console.error('Error fetching progress:', error);
+        }
+      };
+  
+      fetchProgress();
+    }, []);
+
     return (
       <SafeAreaView style={styles.container}>
         <View>
@@ -29,7 +74,9 @@ import {
           </Text>
   
           <View>
-            <Text style={styles.text1} />
+            <Text style={styles.text1} >
+              {progress && progress.month}
+            </Text>
           </View>
   
           {/* UpGrading  */}
@@ -54,19 +101,12 @@ import {
                   Learning
                 </Text>
   
-                <Text style={styles.inputSub} />
-  
-                <Text style={styles.inputSub} />
-  
-                <Text style={styles.inputSub} />
-  
-                <Text style={styles.inputSub} />
-  
-                <Text style={styles.inputSub} />
-  
-                <Text style={styles.inputSub} />
-  
-                <Text style={styles.inputSub} />
+                {progress &&
+                progress.subjects.map((subject, index) => (
+                  <Text key={index} style={styles.inputSub} >
+                    {subject.name}
+                  </Text>
+                ))}
               </View>
             </View>
   
@@ -89,19 +129,13 @@ import {
                   }}>
                   Quarterly Grade
                 </Text>
-                <Text style={styles.inputSub} />
+                {progress &&
+                progress.subjects.map((subject, index) => (
+                  <Text key={index} style={styles.inputSub}>
+                    {subject.grade}
+                  </Text>
+                ))}
   
-                <Text style={styles.inputSub} />
-  
-                <Text style={styles.inputSub} />
-  
-                <Text style={styles.inputSub} />
-  
-                <Text style={styles.inputSub} />
-  
-                <Text style={styles.inputSub} />
-  
-                <Text style={styles.inputSub} />
               </View>
             </View>
           </View>
@@ -121,7 +155,7 @@ import {
               borderColor: 'black',
               alignSelf: 'center',
             }}>
-            Feadback & Remark
+            {progress && progress.remark}
           </Text>
           </TouchableOpacity>
   
@@ -160,6 +194,7 @@ import {
       alignSelf: 'center',
       backgroundColor: '#A69097',
       marginLeft: 20,
+      paddingLeft: 20,
     },
   
     inputGrade: {

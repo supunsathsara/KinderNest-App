@@ -1,83 +1,79 @@
-import React from 'react';
-import { StyleSheet, Text, View, ImageBackground, Image, TouchableOpacity, TextInput } from 'react-native';
-import axios from 'axios';
+import React, { useEffect, useState } from 'react';
+import { View, Text, ImageBackground, TouchableOpacity, Alert, ActivityIndicator, Image, StyleSheet } from 'react-native';
+import { WebView } from 'react-native-webview';
+import { supabase } from '../../lib/supabase';
+import { Session } from '@supabase/supabase-js';
 
-const PaymentMethod = ({ navigation }) => {
-  const [studentNumber, setStudentNumber] = React.useState('');
-  const [studentName, setStudentName] = React.useState('');
-  const [parentPhoneNumber, setParentPhoneNumber] = React.useState('');
+const PaymentMethod = ({ navigation }:any) => {
+  const [loading, setLoading] = useState(false);
+
+  const [session, setSession] = useState<Session | null>(null)
+
+  useEffect(() => {
+      supabase.auth.getSession().then(({ data: { session } }) => {
+        setSession(session)
+      })
+  
+      supabase.auth.onAuthStateChange((_event, session) => {
+        setSession(session)
+      })
+  
+   
+    }, [])
+
+  const handlePayment = () => {
+    setLoading(true);
+  };
+
+  const checkPayment = () => {
+    setLoading(false);
+    Alert.alert('Payment successful');
+    navigation.navigate('PHome')
+  };
+
+  const onNavigationStateChange = (navState:any) => {
+    if (navState.url.includes('success')) {
+      checkPayment();
+    }
+  };
 
   const proceedHandle = () => {
-
-    if (!studentName) {
-      console.error("Please enter student number");
-      return;
-    }
-
-    axios.post("http://192.168.1.10:3000/PaymentDetails", {
-      id: studentNumber,
-      name: studentName,
-      mobile: parentPhoneNumber
-    })
-      .then(response => {
-
-        console.log(response.data);
-
-        navigation.navigate('Process');
-      })
-      .catch(error => {
-
-        console.error('Error:', error);
-      });
-  }
-
-  // const PayPalPayment = () =>{
-  //   const createPayment = async () => {
-  //       try {
-  //           const response = await axios.post ("http://192.168.1.10:3000/paypal");
-  //           const approvalURL = response.data.links.find(link => link.rel === "approval_url").href;
-  //           console.log(approvalURL)
-  //       } catch (error) {
-  //           console.error ("Error creating Paypal payment:", error);
-  //           Alert.alert('Error',)
-  //       }
-  //   }
-  // } 
+    // Handle payment initiation
+    handlePayment();
+  };
 
   return (
-    <View style={styles.container}>
-      <ImageBackground source={require('../images/Blank.png')} resizeMode="cover" style={styles.image}>
-        <Text style={styles.textheading}>Make your class payments</Text>
-        <Image style={styles.paymentlady} source={require("../images/paymentlady.png")} />
-        <TextInput
-          style={styles.input}
-          placeholderTextColor={'black'}
-          placeholder='Student Number'
-          value={studentNumber}
-          onChangeText={setStudentNumber}
-        />
-        <TextInput
-          style={styles.input2}
-          placeholderTextColor={'black'}
-          placeholder='Student Name'
-          value={studentName}
-          onChangeText={setStudentName}
-        />
-        <TextInput
-          style={styles.input3}
-          placeholderTextColor={'black'}
-          placeholder='Parent Phone Number'
-          value={parentPhoneNumber}
-          onChangeText={setParentPhoneNumber}
-        />
-        <TouchableOpacity onPress={proceedHandle} style={styles.button}>
-          <Text style={{ fontSize: 20, padding: 10, textAlign: 'center', fontWeight: 'bold', color: 'white' }}>Proceed with PayPal</Text>
-        </TouchableOpacity>
+    <View style={{ flex: 1 }}>
+      <ImageBackground source={require('../images/Blank.png')} resizeMode="cover" style={{ flex: 1 }}>
+        <Text style={{ fontSize: 24, textAlign: 'center', marginTop: 20 }}>Make your class payments</Text>
+        <Image style={{ width: 200, height: 200, alignSelf: 'center', marginTop: 20 }} source={require("../images/paymentlady.png")} />
+        {loading ? (
+          <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+            <ActivityIndicator size="large" color="#0000ff" />
+            <Text style={{ marginTop: 10 }}>Processing payment...</Text>
+          </View>
+        ) : (
+          <TouchableOpacity onPress={proceedHandle} style={{ backgroundColor: '#944CC0', borderRadius: 5, marginHorizontal: 50, marginTop: 30 }}>
+            <Text style={{ fontSize: 20, padding: 10, textAlign: 'center', fontWeight: 'bold', color: 'white' }}>Proceed with PayPal</Text>
+          </TouchableOpacity>
+        )}
       </ImageBackground>
+      {loading && (
+        <View style={{ flex: 1 }}>
+          <WebView
+            source={{ uri: `${process.env.API_URL}/paypal?payerID=${session?.user.email}` }}
+            onNavigationStateChange={onNavigationStateChange}
+            style={{ flex: 1 }}
+          />
+        </View>
+      )}
+ 
     </View>
   );
-}
+};
+
 export default PaymentMethod;
+
 
 const styles = StyleSheet.create({
   container: {
