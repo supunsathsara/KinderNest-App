@@ -28,6 +28,7 @@ import RegisterScreen from './Components/Screens/RegisterScreen';
 import { supabase } from './lib/supabase';
 import { Alert, View } from 'react-native';
 import LogoutButton from './Components/Screens/LogoutButton';
+import Calender from './Components/Screens/Calender/Calender';
 
 const StackNav = () => {
   const stack = createNativeStackNavigator();
@@ -139,6 +140,10 @@ const StackNav = () => {
         <stack.Screen
         name='Account'
         component={LogoutButton} />
+        <stack.Screen
+        name='Calender'
+        component={Calender} />
+        
         
     </stack.Navigator>
   );

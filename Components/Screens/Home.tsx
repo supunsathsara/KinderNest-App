@@ -77,7 +77,7 @@ const Home = ({navigation}) => {
                 <View>
 
                     <View style={styles.view1}>
-                        <TouchableOpacity style={styles.Calendartn}>
+                        <TouchableOpacity style={styles.Calendartn} onPress={() => navigation.navigate('Calender')}>
                             <Image style={{ position: 'absolute', left: -30, width: 340, height: 180, top: -60 }} source={require("../images/Rectangle.png")}></Image>
                             <Text style={styles.text5}>Calender {"\n"} & {"\n"} Schedule</Text>
                             <Image style={styles.Openbookimage} source={require("../images/Schedule.png")}></Image>
