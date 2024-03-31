@@ -192,7 +192,7 @@ const styles = StyleSheet.create({
         backgroundColor: 'white',
         height: 80,
         width: 96,
-        borderRadius: 5,
+
         marginHorizontal: 15,
         marginTop: 15,
         alignItems: 'center',
@@ -213,7 +213,7 @@ const styles = StyleSheet.create({
         backgroundColor: 'white',
         height: 128,
         width: 142,
-        borderRadius: 5,
+
         marginHorizontal: 15,
         marginTop: 60,
         alignItems: 'center',
