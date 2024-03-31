@@ -44,12 +44,12 @@ const Home = ({navigation}) => {
                         </TouchableOpacity>
                         <Text style={styles.text4}>Homeworks</Text>
                     </View> */}
-                    <View style={styles.view}>
+                    {/* <View style={styles.view}>
                         <TouchableOpacity style={styles.onlinebtn}>
                             <Image source={require("../images/Chat.png")}></Image>
                         </TouchableOpacity>
                         <Text style={styles.text4}>Chat</Text>
-                    </View>
+                    </View> */}
 
                     {/**Logout */}
                     <View style={styles.view}>
@@ -68,11 +68,11 @@ const Home = ({navigation}) => {
                         <Text style={styles.text4}>Progress</Text>
                     </View>
                     <View style={styles.view}>
-                        <TouchableOpacity style={styles.Progresstn}>
-                            <Image source={require("../images/Emergency.png")}></Image>
+                        <TouchableOpacity style={styles.Calendartn} onPress={() => navigation.navigate('Calender')}>
+                            <Image source={require("../images/Schedule.png")}></Image>
                         </TouchableOpacity>
-                        <Text style={styles.text4}>Emergency Alerts</Text>
-                    </View>
+                        <Text style={styles.text4}>Calender</Text>
+                        </View>
                 </View>
                 <View>
 

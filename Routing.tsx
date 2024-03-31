@@ -7,15 +7,11 @@ import Loading from './Components/Screens/Loading';
 import Login from './Components/Screens/Login';
 import ParentSignup from './Components/Screens/ParentSignup';
 import TeacherSignUp from './Components/Screens/TeacherSignUp';
-import ForgotPassword from './Components/Screens/ForgotPassword';
-import NewPassword from './Components/Screens/NewPassword';
-import Verification from './Components/Screens/Verification';
 import PaymentMethod from './Components/Screens/PaymentMethod';
 import OnlineClassTeacher from './Components/Screens/onlineClassTeacher';
 import Home from './Components/Screens/Home';
 import Homeparent from './Components/Screens/Homeparent';
 import OnlineClassChild from './Components/Screens/onlineClassChild';
-import Profile from './Components/Screens/Profile';
 import ClassList from './Components/Screens/Classlist';
 import MonthlyProgress from './Components/Screens/Monthlyprogress';
 import ProgressParent from './Components/Screens/progressparent';
@@ -74,12 +70,7 @@ const StackNav = () => {
             );
           },
         }} />
-      <stack.Screen
-        name='FPassword'
-        component={ForgotPassword} />
-      <stack.Screen
-        name='NPassword'
-        component={NewPassword} />
+     
       <stack.Screen
         name='OCChild'
         component={OnlineClassChild} />
@@ -89,12 +80,7 @@ const StackNav = () => {
       <stack.Screen
         name='Payment'
         component={PaymentMethod} />
-      <stack.Screen
-        name='Profile'
-        component={Profile} />
-      <stack.Screen
-        name='Verification'
-        component={Verification} />
+      
       <stack.Screen
         name='Aboutus'
         component={Aboutus}

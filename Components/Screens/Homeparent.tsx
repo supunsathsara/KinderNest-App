@@ -103,7 +103,7 @@ const Homeparent = ({ navigation }) => {
                         <TouchableOpacity style={styles.onlinebtn} onPress={() => navigation.navigate('Payment')}>
                             <Image source={require("../images/Chat.png")}></Image>
                         </TouchableOpacity>
-                        <Text style={styles.text4}>Chats</Text>
+                        <Text style={styles.text4}>Payment</Text>
                     </View>
                 </View>
 
