@@ -43,7 +43,7 @@ const ParentSignup = ({ navigation }) => {
             Alert.alert(error.message)
         }
         if (!error) {
-            navigation.navigate('PHome')
+            navigation.navigate('THome')
         }
     }
 
