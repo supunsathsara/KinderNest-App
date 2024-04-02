@@ -5,7 +5,7 @@ import { supabase } from '../../lib/supabase'
 import axios from 'axios'
 import { ActivityIndicator } from 'react-native-paper'
 
-const Homeparent = ({ navigation }) => {
+const Homeparent = ({ navigation }: { navigation: any }) => {
 
     const [session, setSession] = useState<Session | null>(null)
     const [paymentStatus, setPaymentStatus] = useState('');
@@ -23,7 +23,7 @@ const Homeparent = ({ navigation }) => {
                 console.error('Error checking payment status:', error);
                 setLoading(false);
             });
-    }, []);
+    }, [session]);
 
     const handleRefresh = () => {
         setLoading(true);
@@ -101,7 +101,7 @@ const Homeparent = ({ navigation }) => {
                     </View>
                     <View style={styles.view}>
                         <TouchableOpacity style={styles.onlinebtn} onPress={() => navigation.navigate('Payment')}>
-                            <Image source={require("../images/Chat.png")}></Image>
+                            <Image source={require("../images/payment.png")}></Image>
                         </TouchableOpacity>
                         <Text style={styles.text4}>Payment</Text>
                     </View>
@@ -115,10 +115,10 @@ const Homeparent = ({ navigation }) => {
                         <Text style={styles.text4}>Progress</Text>
                     </View>
                     <View style={styles.view}>
-                        <TouchableOpacity style={styles.Progresstn}>
-                            <Image source={require("../images/Emergency.png")}></Image>
+                        <TouchableOpacity onPress={() => navigation.navigate('contactTeacher')} style={styles.Progresstn}>
+                            <Image source={require("../images/Chat.png")}></Image>
                         </TouchableOpacity>
-                        <Text style={styles.text4}>Emergency Alerts</Text>
+                        <Text style={styles.text4}>Contact Teacher</Text>
                     </View>
                 </View>
                 <View>
@@ -211,11 +211,11 @@ const styles = StyleSheet.create({
     },
     Progresstn: {
         backgroundColor: 'white',
-        height: 128,
-        width: 142,
+        height: 90,
+        width: 90,
 
         marginHorizontal: 15,
-        marginTop: 60,
+        marginTop: 30,
         alignItems: 'center',
         justifyContent: 'center',
         marginLeft: 30,

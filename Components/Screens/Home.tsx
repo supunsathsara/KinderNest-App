@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react'
 import { supabase } from '../../lib/supabase'
 import { Session } from '@supabase/supabase-js'
 
-const Home = ({navigation}) => {
+const Home = ({navigation}: {navigation: any}) => {
 
     const [session, setSession] = useState<Session | null>(null)
 
@@ -62,7 +62,7 @@ const Home = ({navigation}) => {
 
                 <View style={{ flexDirection: 'row' }}>
                     <View style={styles.view}>
-                        <TouchableOpacity style={styles.Progresstn} onPress={() => navigation.navigate('PProgress')}>
+                        <TouchableOpacity style={styles.Progresstn} onPress={() => navigation.navigate('PTeacher')}>
                             <Image source={require("../images/Progress.png")}></Image>
                         </TouchableOpacity>
                         <Text style={styles.text4}>Progress</Text>

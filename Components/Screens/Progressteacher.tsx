@@ -7,10 +7,12 @@ import {
     TextInput,
     TouchableOpacity,
     Alert,
+    ScrollView,
   } from 'react-native';
   import React, { useState } from 'react';
 import axios from 'axios';
 import { set } from 'react-native-reanimated';
+
   
   const ProgressTeacher = () => {
     const [student, setStudent] = useState('');
@@ -52,6 +54,7 @@ const handleSend = () => {
 
     return (
       <SafeAreaView style={styles.container}>
+        <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
         <View>
           <Image
             style={{width: 393, height: 80}}
@@ -267,6 +270,7 @@ const handleSend = () => {
         </TouchableOpacity>
   
         </View>
+        </ScrollView>
       </SafeAreaView>
     );
   };

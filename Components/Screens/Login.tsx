@@ -1,9 +1,10 @@
 import React, { useState } from 'react'
 import { useFocusEffect } from '@react-navigation/native';
-import { StyleSheet, Text, View, Image, TextInput, TouchableOpacity, Alert, BackHandler } from 'react-native'
+import { StyleSheet, Text, View, Image, TextInput, TouchableOpacity, Alert, BackHandler, ScrollView } from 'react-native'
 import { supabase } from '../../lib/supabase';
 
-const Login = ({ navigation }) => {
+
+const Login = ({ navigation }: { navigation: any }) => {
   useFocusEffect(
     React.useCallback(() => {
       const onBackPress = () => {
@@ -51,6 +52,7 @@ const Login = ({ navigation }) => {
 
   }
   return (
+    <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
     <View style={styles.container}>
       <View>
         <Image style={styles.bbyimage} source={require("../images/bby2.png")}></Image>
@@ -69,6 +71,7 @@ const Login = ({ navigation }) => {
         <TouchableOpacity><Text style={{ fontSize: 15, padding: 5, textAlign: 'center', fontWeight: 'bold',color: 'black', }}>Don't have an account</Text></TouchableOpacity>
       </View>
     </View>
+    </ScrollView>
   )
 }
 

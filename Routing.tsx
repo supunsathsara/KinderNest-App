@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { NavigationContainer, useNavigation, DrawerActions } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { createDrawerNavigator } from '@react-navigation/drawer';
@@ -19,12 +19,13 @@ import ProgressTeacher from './Components/Screens/Progressteacher';
 import Aboutus from './Components/Screens/Aboutus';
 import { Button, Drawer } from 'react-native-paper';
 import Contactus from './Components/Screens/Contactus';
-import Icon from 'react-native-vector-icons/Entypo';
+import Icon from 'react-native-vector-icons/FontAwesome';
 import RegisterScreen from './Components/Screens/RegisterScreen';
 import { supabase } from './lib/supabase';
 import { Alert, View } from 'react-native';
 import LogoutButton from './Components/Screens/LogoutButton';
 import Calender from './Components/Screens/Calender/Calender';
+import ContactTeacher from './Components/Screens/ContactTeacher';
 
 const StackNav = () => {
   const stack = createNativeStackNavigator();
@@ -54,7 +55,22 @@ const StackNav = () => {
         component={TeacherSignUp} />
       <stack.Screen
         name='THome'
-        component={Home} />
+        component={Home} 
+        options={{
+          headerLeft: () => {
+            return (
+              <Icon
+                name="menu"
+                onPress={() => navigation.dispatch(DrawerActions.openDrawer())}
+                size={30}
+                color="#000"
+              />
+            );
+          },
+          //set the header title
+          headerTitle: 'Home',
+        }} 
+        />
       <stack.Screen
         name='PHome'
         component={Homeparent}
@@ -69,6 +85,8 @@ const StackNav = () => {
               />
             );
           },
+          //set the header title
+          headerTitle: 'Home',
         }} />
      
       <stack.Screen
@@ -76,7 +94,12 @@ const StackNav = () => {
         component={OnlineClassChild} />
       <stack.Screen
         name='OCTeacher'
-        component={OnlineClassTeacher} />
+        component={OnlineClassTeacher} 
+        options={{
+          headerTitle: 'Add Online Classes',
+        }
+        }
+        />
       <stack.Screen
         name='Payment'
         component={PaymentMethod} />
@@ -116,10 +139,18 @@ const StackNav = () => {
         component={ClassList} />
       <stack.Screen
         name='MProgress'
-        component={MonthlyProgress} />
+        component={MonthlyProgress} 
+        options={{
+          headerTitle: 'Progress History',
+        }}
+        />
       <stack.Screen
         name='PProgress'
-        component={ProgressParent} />
+        component={ProgressParent} 
+        options={{
+          headerTitle: 'This Month Progress',
+        }}
+        />
       <stack.Screen
         name='PTeacher'
         component={ProgressTeacher} />
@@ -129,6 +160,14 @@ const StackNav = () => {
         <stack.Screen
         name='Calender'
         component={Calender} />
+        <stack.Screen
+        name='contactTeacher'
+        component={ContactTeacher} 
+        options={{
+          headerTitle: 'Contact Teacher',
+        }}
+        />
+
         
         
     </stack.Navigator>
@@ -146,10 +185,11 @@ const DrawerNav = () => {
       <Drawer.Screen name="Aboutus" component={Aboutus} options={{headerShown: true, headerTitleAlign:'center'}} />
       <Drawer.Screen name="Contactus" component={Contactus} options={{headerShown: true, headerTitleAlign:'center'}} />
       <Drawer.Screen name="Account" component={LogoutButton} options={{ headerShown: true, headerTitleAlign: 'center' }} />
+     
+
     </Drawer.Navigator>
   )
 }
-
 
 
 const Routing = () => {
@@ -160,5 +200,7 @@ const Routing = () => {
     </NavigationContainer>
   );
 }
+
+
 
 export default Routing;

@@ -1,12 +1,4 @@
-import {
-  View,
-  Text,
-  SafeAreaView,
-  Image,
-  TextInput,
-  StyleSheet,
-  Alert,
-} from 'react-native';
+import { View, Text, SafeAreaView, Image, TextInput, StyleSheet, Alert, TouchableOpacity, Linking, ScrollView } from 'react-native';
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { supabase } from '../../lib/supabase';
@@ -25,7 +17,6 @@ const OnlineClassChild = () => {
       setSession(session)
     })
 
-
   }, [])
 
   const [classes, setClasses] = useState<any[]>([]);
@@ -33,7 +24,7 @@ const OnlineClassChild = () => {
   useEffect(() => {
     const fetchClasses = async () => {
       try {
-        const response = await axios.get(process.env.API_URL +'/classes/'+session?.user.user_metadata.class);
+        const response = await axios.get(`${process.env.API_URL}/classes/${session?.user.user_metadata.class}`);
         setClasses(response.data.data); 
       } catch (error) {
         console.error('Error fetching classes:', error);
@@ -49,46 +40,48 @@ const OnlineClassChild = () => {
     return date.toLocaleDateString(); // Format the date according to the user's locale
   };
 
+  const handleLinkPress = (url: string) => {
+    Linking.openURL(url);
+  };
+
   return (
-    <SafeAreaView style={{ backgroundColor: '#AF9FB2'}}>
-        <Text style={{
-            fontSize:32,
-            textAlign: 'center',
-            marginTop:10
-        }}> 
-            online class
-        </Text>
+    <SafeAreaView style={styles.container}>
+       <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
+        <Text style={styles.heading}>Online Class</Text>
       <Image
-        style={{width: 243, height: 270, alignSelf: 'center', marginTop: 60}}
+        style={styles.image}
         source={require('../images/OCchild.png')}
       />
-      <View
-        style={{
-          alignSelf: 'center',
-          marginTop: 20,
-          backgroundColor: '#944CC0',
-          borderRadius: 0,
-          width: 345,
-          height: 300,
-          padding: 20,
-          borderWidth: 1,
-          borderColor: 'black',
-        }}>
+      <View style={styles.classContainer}>
         {classes.map((classItem, index) => (
-          <View key={index} style={styles.classItem}>
+          <TouchableOpacity key={index} style={styles.classItem} onPress={() => handleLinkPress(classItem.session)}>
             <Text style={styles.classText}>Link: {classItem.session || ""}</Text>
             <Text style={styles.classText}>Date: {formatDate(classItem.date)}</Text>
             <Text style={styles.classText}>Time: {classItem.time || ""}</Text>
-          </View>
+          </TouchableOpacity>
         ))}
       </View>
+      </ScrollView>
     </SafeAreaView>
   );
 };
+
 const styles = StyleSheet.create({
-  text: {
+  container: {
+    flex: 1,
+    backgroundColor: '#AF9FB2',
+    alignItems: 'center',
+  },
+  heading: {
+    fontSize: 32,
     textAlign: 'center',
-    marginTop: 5,
+    marginTop: 10,
+  },
+  image: {
+    width: 243,
+    height: 270,
+    alignSelf: 'center',
+    marginTop: 60,
   },
   classContainer: {
     alignSelf: 'center',
@@ -100,10 +93,14 @@ const styles = StyleSheet.create({
   },
   classItem: {
     marginBottom: 10,
+    borderBottomWidth: 1,
+    borderBottomColor: 'white',
+    paddingBottom: 10,
   },
   classText: {
     fontSize: 16,
     marginBottom: 5,
+    color: 'white',
   },
 });
 

@@ -53,7 +53,7 @@ interface ProgressData {
       };
   
       fetchProgress();
-    }, []);
+    }, [session]);
 
     return (
       <SafeAreaView style={styles.container}>
@@ -180,9 +180,14 @@ interface ProgressData {
       borderRadius: 5,
       width: 135,
       height: 32,
-      marginTop: 3,
+      marginTop: 10,
       alignSelf: 'center',
       backgroundColor: '#C19DC9',
+      textAlign: 'center',
+      justifyContent: 'center',
+      alignItems: 'center',
+
+
     },
     inputSub: {
       borderColor: 'black',
@@ -193,8 +198,9 @@ interface ProgressData {
       marginTop: 3,
       alignSelf: 'center',
       backgroundColor: '#A69097',
-      marginLeft: 20,
-      paddingLeft: 20,
+      textAlign: 'center',
+      justifyContent: 'center',
+      alignItems: 'center',
     },
   
     inputGrade: {
@@ -206,6 +212,10 @@ interface ProgressData {
       marginTop: 3,
       alignSelf: 'center',
       backgroundColor: '#A69097',
+      textAlign: 'center',
+      justifyContent: 'center',
+      alignItems: 'center',
+
     },
     inputRemark: {
       borderColor: 'black',
