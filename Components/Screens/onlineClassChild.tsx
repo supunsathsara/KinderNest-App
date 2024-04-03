@@ -25,6 +25,7 @@ const OnlineClassChild = () => {
     const fetchClasses = async () => {
       try {
         const response = await axios.get(`${process.env.API_URL}/classes/${session?.user.user_metadata.class}`);
+        console.log(response.data.data)
         setClasses(response.data.data); 
       } catch (error) {
         console.error('Error fetching classes:', error);

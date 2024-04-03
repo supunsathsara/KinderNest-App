@@ -124,7 +124,7 @@ const Homeparent = ({ navigation }: { navigation: any }) => {
                 <View>
 
                     <View style={styles.view1}>
-                        <TouchableOpacity style={styles.Calendartn}>
+                        <TouchableOpacity style={styles.Calendartn} onPress={() => navigation.navigate('AIstory')}>
                             <Image style={{ position: 'absolute', left: -30, width: 340, height: 180, top: -60 }} source={require("../images/Rectangle.png")}></Image>
                             <Text style={styles.text5}>AI {"\n"}STORY TELLING</Text>
                             <Image style={styles.Openbookimage} source={require("../images/Openbook.png")}></Image>

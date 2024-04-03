@@ -7,6 +7,7 @@ import {
   TextInput,
   TouchableOpacity,
   Alert,
+  ScrollView,
 } from 'react-native';
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
@@ -79,6 +80,7 @@ const OnlineClassTeacher = () => {
 
   return (
     <SafeAreaView style={{}}>
+       <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
       <Text style={{
         fontSize: 30,
         textAlign: 'center',
@@ -141,6 +143,7 @@ const OnlineClassTeacher = () => {
           Send
         </Text>
       </TouchableOpacity>
+      </ScrollView>
     </SafeAreaView>
   );
 };

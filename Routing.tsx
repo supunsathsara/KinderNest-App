@@ -26,6 +26,7 @@ import { Alert, View } from 'react-native';
 import LogoutButton from './Components/Screens/LogoutButton';
 import Calender from './Components/Screens/Calender/Calender';
 import ContactTeacher from './Components/Screens/ContactTeacher';
+import StoryScreen from './Components/Screens/StoryScreen';
 
 const StackNav = () => {
   const stack = createNativeStackNavigator();
@@ -165,6 +166,12 @@ const StackNav = () => {
         component={ContactTeacher} 
         options={{
           headerTitle: 'Contact Teacher',
+        }} />
+        <stack.Screen 
+        name='AIstory'
+        component={StoryScreen}
+        options={{
+          headerTitle: 'Story Generator',
         }}
         />
 
